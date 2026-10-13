@@ -132,7 +132,14 @@ public class ConfigEditorService
 
     private static string SafeRead(string path)
     {
-        try { return File.ReadAllText(path, System.Text.Encoding.UTF8); }
+        try
+        {
+            if (path == null || path.Contains(".."))
+            {
+                throw new ArgumentException("Invalid file path");
+            }
+            return File.ReadAllText(path, System.Text.Encoding.UTF8);
+        }
         catch { return string.Empty; }
     }
 }
